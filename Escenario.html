@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Polett</title>
+    <style>
+        /* Estilo para el contenedor del logo */
+        #logo-container {
+            position: absolute;
+            top: 20px; /* Distancia desde la parte superior */
+            left: 20px; /* Distancia desde la izquierda */
+        }
+
+        /* Estilo para el logo */
+        #logo {
+            width: 100px; /* Ancho del logo */
+            height: auto; /* Altura automática */
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Contenedor del logo -->
+    <div id="logo-container">
+        <!-- Logo -->
+        <img id="logo" src="STYLES/IMAGES/LOGO.png" alt="Logo">
+    </div>
+
+    <script>
+        // Crear el escenario
+        var scene = new THREE.Scene();
+
+        // Crear la cámara
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 10;
+
+        // Crear el renderizador
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Tamaño de todas las figuras
+        var size = 2;
+
+        // Crear geometrías
+        var geometryCube = new THREE.BoxGeometry(size, size, size);
+        var geometryPyramid = new THREE.CylinderGeometry(0, size, size * 2, 4);
+        var geometrySphere = new THREE.SphereGeometry(size, 32, 32);
+
+        // Crear materiales con diferentes colores
+        var materialCube = new THREE.MeshBasicMaterial({ color: 0xf8a5c2 }); // Color del cubo
+        var materialPyramid = new THREE.MeshBasicMaterial({ color: 0xc7a2f2 }); // Color de la pirámide
+        var materialSphere = new THREE.MeshBasicMaterial({ color: 0xb0e0e6 }); // Color de la esfera
+
+        // Crear mallas
+        var cube = new THREE.Mesh(geometryCube, materialCube);
+        var pyramid = new THREE.Mesh(geometryPyramid, materialPyramid);
+        var sphere = new THREE.Mesh(geometrySphere, materialSphere);
+
+        // Posicionar objetos
+        cube.position.set(-size * 3, 0, 0); // Posición inicial del cubo
+        pyramid.position.set(size * 3, 0, 0); // Posición inicial de la pirámide
+        sphere.position.set(0, 0, 0); // Posición inicial de la esfera
+
+        // Variables para controlar movimientos
+        var directionX = 1;
+        var directionY = 1;
+
+        // Animar la escena
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Movimiento del cubo (rebotar en límites x y y)
+            cube.position.x += 0.05 * directionX;
+            cube.position.y += 0.05 * directionY;
+
+            // Movimiento de la pirámide (rebotar en límites x y y)
+            pyramid.position.x -= 0.05 * directionX;
+            pyramid.position.y -= 0.05 * directionY;
+
+            // Movimiento de la esfera (rebotar en límites x y y)
+            sphere.position.x += 0.05 * directionX;
+            sphere.position.y -= 0.05 * directionY;
+
+            // Rebotar en límites x
+            if (cube.position.x >= size * 3 || cube.position.x <= -size * 3) {
+                directionX *= -1;
+            }
+
+            // Rebotar en límites y
+            if (cube.position.y >= size * 3 || cube.position.y <= -size * 3) {
+                directionY *= -1;
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Agregar objetos a la escena
+        scene.add(cube);
+        scene.add(pyramid);
+        scene.add(sphere);
+
+
+
+            // Función para redirigir cuando se presiona una tecla
+            function redirectToPage(event) {
+            // Obtener el código de la tecla presionada
+            var keyCode = event.keyCode;
+
+            // Verificar si la tecla presionada es la tecla "Enter" (código 13)
+            if (keyCode === 81 || keyCode === 113) {
+                // Redirigir a la página deseada (reemplaza "otra_pagina.html" con la URL de la página a la que deseas redirigir)
+                window.location.href = "Pause.html";
+            }
+        }
+
+        // Agregar un event listener para el evento keypress
+        document.addEventListener("keypress", redirectToPage);
+    </script>
+</body>
+</html>
+
